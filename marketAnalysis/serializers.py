@@ -32,11 +32,7 @@ class ImportCreateSerializer(serializers.ModelSerializer):
             for relative_id in data['relatives']:
                 if relative_id not in citizen_dict:
                     raise serializers.ValidationError(f'Relatives with id:{relative_id} doesnt exist')
-                is_relative = False
-                for id in citizen_dict[relative_id]['relatives']:
-                    if id == citizen_id:
-                        is_relative = True
-                if not is_relative:
+                if citizen_id not in citizen_dict[relative_id]['relatives']:
                     raise serializers.ValidationError(
                         f'Relatives with id:{relative_id} Relationships are not bilateral')
         return attrs
@@ -88,7 +84,7 @@ class GiftDistributionSerializer(serializers.ModelSerializer):
 
     def get_data(self, obj):
         import_id = self.context['import_id']
-        instance = Citizen.objects.filter(imports=import_id)
+        instance = Citizen.objects.filter(imports=import_id).order_by('citizen_id')
         if len(instance) == 0:
             raise serializers.ValidationError(f' Import id:{import_id} doesnt exist')
         dct = {}
@@ -120,7 +116,6 @@ class AgePercentileSerializer(serializers.ModelSerializer):
         if len(instance) == 0:
             raise serializers.ValidationError(f' Import id:{import_id} doesnt exist')
         dct = {}
-
         for data in instance:
             if data.town not in dct:
                 dct[data.town] = []

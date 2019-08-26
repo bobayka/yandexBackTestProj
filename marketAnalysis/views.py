@@ -15,7 +15,7 @@ def importCitizens(request):
         serializer = ImportCreateSerializer(data=request.data)
         if serializer.is_valid():
             data = serializer.save()
-            return Response({'data': {'import_id': data.__dict__.get('id')}}, status=status.HTTP_201_CREATED)
+            return Response({'data': {'import_id': data.pk}}, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -29,9 +29,7 @@ def updateCitizens(request, import_id, citizen_id):
             serializer = CitizenGetUpdateSerializer(instance, data=request.data, partial=True,
                                                     context={'import_id': import_id})
             if serializer.is_valid():
-                data = serializer.save()
-                print(data)
-                print(serializer.data)
+                serializer.save()
                 return Response({'data': serializer.data}, status=status.HTTP_200_OK)
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
@@ -46,10 +44,7 @@ def getCitizens(request, import_id):
         instance = Citizen.objects.filter(imports=import_id)
         if len(instance) == 0:
             return Response("unknown id", status=status.HTTP_400_BAD_REQUEST)
-        # sdinst = json.dumps(list(instance), cls = DjangoJSONEncoder, ensure_ascii=False)
-        # print(sdinst)
         serializer = CitizenGetUpdateSerializer(instance, many=True)
-        # print(instance[0].)
         return Response({'data': serializer.data}, status=status.HTTP_200_OK)
 
 
