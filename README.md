@@ -5,7 +5,8 @@
  - [Django REST framework](https://www.django-rest-framework.org/)
  -  объектно-реляционная СУБД [PostgreSQL](https://www.postgresql.org/)
  -  web-сервер [Gunicorn](https://gunicorn.org/) - WSGI сервер для UNIX
-
+ 
+URL: http://84.201.142.153:8080
 
 ## Команды, выполненные на сервере
 ### Настройка Postgresql
@@ -37,8 +38,10 @@
     1. ./manage.py makemigrations
     2. ./manage.py migrate
 ### Развёртывание сайта
+   
     1. pip install gunicorn   
-    2. Из папки проекта gunicorn -b :8080 OnlineStoreREST.wsgi 
+    2.Сайт перезапускает Supervizor, если возникнут неполндки, то запуск осуществляется 
+    из папки проекта gunicorn -b :8080 OnlineStoreREST.wsgi 
 ### Настройка тестов
     1.sudo -u postgres psql postgres
     2.ALTER USER denis CREATEDB;
