@@ -24,7 +24,9 @@ SECRET_KEY = '!6mw2qxebrq+6tv#qv@t8u3dhq9unh_ygf299=(9f+$bk)x_6+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    '84.201.142.153',  # Allow domain and subdomains
+]
 
 # Application definition
 
